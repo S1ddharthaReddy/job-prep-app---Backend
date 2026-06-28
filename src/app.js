@@ -1,11 +1,6 @@
-require("dotenv").config();
-
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
-const connectToDB = require("./src/config/database");
-
-connectToDB();
 
 const app = express();
 
@@ -16,13 +11,12 @@ app.use(cors({
     credentials: true
 }));
 
-const authRouter = require("./src/routes/auth.routes");
-const interviewRouter = require("./src/routes/interview.routes");
+const authRouter = require("./routes/auth.routes");
+const interviewRouter = require("./routes/interview.routes");
 
 app.get("/", (req, res) => {
-  res.send("Backend is running!");
+    res.send("Backend is running!");
 });
-
 
 app.use("/api/auth", authRouter);
 app.use("/api/interview", interviewRouter);
