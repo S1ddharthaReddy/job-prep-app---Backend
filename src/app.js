@@ -1,22 +1,29 @@
-const express = require("express")
-const cookieParser = require("cookie-parser")
-const cors = require("cors")
+require("dotenv").config();
 
-const app = express()
+const express = require("express");
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
+const connectToDB = require("./src/config/database");
 
-app.use(express.json())
-app.use(cookieParser())
-app.use(cors())
+connectToDB();
 
-/* require all the routes here */
-const authRouter = require("./routes/auth.routes")
-const interviewRouter = require("./routes/interview.routes")
+const app = express();
 
+app.use(express.json());
+app.use(cookieParser());
+app.use(cors({
+    origin: "https://job-prep-app-frontend.vercel.app/",
+    credentials: true
+}));
 
-/* using all the routes here */
-app.use("/api/auth", authRouter)
-app.use("/api/interview", interviewRouter)
+const authRouter = require("./src/routes/auth.routes");
+const interviewRouter = require("./src/routes/interview.routes");
 
+app.get("/", (req, res) => {
+  res.send("Backend is running!");
+});
 
+app.use("/api/auth", authRouter);
+app.use("/api/interview", interviewRouter);
 
-module.exports = app
+module.exports = app;
