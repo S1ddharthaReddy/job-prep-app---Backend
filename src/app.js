@@ -6,10 +6,7 @@ const app = express()
 
 app.use(express.json())
 app.use(cookieParser())
-app.use(cors({
-    origin: "https://job-prep-app-frontend.vercel.app",
-    credentials: true
-}))
+app.use(cors())
 
 /* require all the routes here */
 const authRouter = require("./routes/auth.routes")
